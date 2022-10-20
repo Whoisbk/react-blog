@@ -1,24 +1,60 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import CreatePost from './pages/CreatePost';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Registration from './pages/Registration';
+import { useState } from 'react';
+import { getAuth, signOut } from "firebase/auth";
+
 
 function App() {
+  const [isAuth,setIsAuth] = useState(false)
+  
+  const auth = getAuth();
+  const signUserOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        setIsAuth(false)
+        
+        window.location.pathname = "/login"
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/">Navbar</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profile">Profile</Nav.Link>
+            
+            {!isAuth ? <Nav.Link href="/login">Signin</Nav.Link> :
+              <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>}
+          </Nav>
+        </Container>
+      </Navbar>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/registration" element={<Registration />} />
+      </Routes>
+    </Router>
   );
 }
 
