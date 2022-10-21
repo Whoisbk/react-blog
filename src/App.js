@@ -14,7 +14,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Registration from './pages/Registration';
 import { useState } from 'react';
 import { getAuth, signOut } from "firebase/auth";
-
+import { useQuery, gql } from "@apollo/client";
 
 function App() {
   const [isAuth,setIsAuth] = useState(false)
@@ -33,6 +33,8 @@ function App() {
         // An error happened.
       });
   }
+ 
+
   return (
     <Router>
       <Navbar bg="dark" variant="dark">
@@ -41,9 +43,12 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profile">Profile</Nav.Link>
-            
-            {!isAuth ? <Nav.Link href="/login">Signin</Nav.Link> :
-              <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>}
+
+            {!isAuth ? (
+              <Nav.Link href="/login">Signin</Nav.Link>
+            ) : (
+              <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>
+            )}
           </Nav>
         </Container>
       </Navbar>
