@@ -6,6 +6,7 @@ export const CREATE_USER_MUTATION = gql`
     $last_name: String!
     $email: String!
     $username: String!
+    $id:String!
   ) {
     insert_Users(
       objects: {
@@ -13,6 +14,7 @@ export const CREATE_USER_MUTATION = gql`
         last_name: $last_name
         email: $email
         username: $username
+        id:$id
       }
     ) {
       returning {
@@ -22,3 +24,15 @@ export const CREATE_USER_MUTATION = gql`
     }
   }
 `;
+
+  export const CREATE_POST = gql`
+  mutation($content:String! $user_id:String!) {
+  insert_Posts(objects: {content: $content, user_id: $user_id}) {
+    returning {
+      content
+      id
+    }
+  }
+}
+`
+

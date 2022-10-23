@@ -17,7 +17,9 @@ function Registration() {
 
   const auth = getAuth();
 
-  const [insert_Users,{error}] = useMutation(CREATE_USER_MUTATION)
+  const [insert_Users, { error }] = useMutation(CREATE_USER_MUTATION)
+ 
+  
   let navigate = useNavigate();
   const signUp = () => {
 
@@ -25,13 +27,15 @@ function Registration() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("user created");
+       
+        console.log(user);
         insert_Users({
           variables:{
             first_name: firstName,
-            last_name: lastName,
+            last_name: lastName, 
             email: emailInput,
-            username: userName
+            username: userName,
+            id : user.uid
           }
         })
         navigate("/login")

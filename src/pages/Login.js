@@ -5,22 +5,24 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from '../firebase-config'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Login(props) {
   const [textInput, setTextInput] = useState("")
   const [passInput, setPassInput] = useState("");
+  const [uid, setUid] = useState("");
   let navigate = useNavigate()
   
   const auth = getAuth();
+
   const signIn = () => {
     signInWithEmailAndPassword(auth, textInput, passInput)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("logged in")
+        console.log(auth.currentUser.uid)
         props.setIsAuth(true)
         navigate("/")
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -28,7 +30,7 @@ function Login(props) {
         console.log(errorMessage)
         navigate("/login");
       });
-  }
+  } 
   
   return (
     <div className="d-flex justify-content-center aligin-items-center">

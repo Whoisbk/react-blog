@@ -20,6 +20,7 @@ function App() {
   const [isAuth,setIsAuth] = useState(false)
   
   const auth = getAuth();
+ 
   const signUserOut = () => {
     const auth = getAuth();
     signOut(auth)

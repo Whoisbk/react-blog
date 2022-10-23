@@ -9,7 +9,7 @@ function Home() {
   let navigate = useNavigate()
    const GET_USERS = gql`
      query MyQuery {
-       Users {
+       Users {  
          email
          first_name
          id
@@ -62,7 +62,7 @@ function Home() {
     <div>
       <DisplayUsers />
       <DisplayPosts />
-      <Button className="m-2" variant="secondary" onClick={()=>{navigate("/createpost")}}>
+      <Button className="m-2" variant="secondary" onClick={()=>{navigate("/profile")}}>
         Start A Post
       </Button>
     </div>
