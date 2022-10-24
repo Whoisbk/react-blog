@@ -19,15 +19,13 @@ import { useQuery, gql } from "@apollo/client";
 function App() {
   const [isAuth,setIsAuth] = useState(false)
   
-  const auth = getAuth();
- 
   const signUserOut = () => {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         setIsAuth(false)
-        
+        localStorage.clear()
         window.location.pathname = "/login"
       })
       .catch((error) => {
@@ -35,7 +33,6 @@ function App() {
       });
   }
  
-
   return (
     <Router>
       <Navbar bg="dark" variant="dark">
@@ -45,7 +42,7 @@ function App() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profile">Profile</Nav.Link>
 
-            {!isAuth ? (
+            {!localStorage.getItem("user") ? (
               <Nav.Link href="/login">Signin</Nav.Link>
             ) : (
               <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>

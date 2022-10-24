@@ -2,31 +2,49 @@ import { getAuth } from 'firebase/auth';
 import React from 'react'
 import { USER_PROFILE } from "../GraphQL/Queries";
 import { useQuery } from '@apollo/client';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Profile() {
-  const auth = getAuth();
- 
 
-  const id = "CfQPmhq8hVT1SYSKVoKCD5dB9oV2";
+  const [uid, setUid] = useState([]);
   
-  function DisplayUsers(props) {
+  useEffect(() => {
+    const uid = JSON.parse(localStorage.getItem("user"));
+    if (uid) {
+      setUid(uid);
+    }
+    console.log(uid)
+  }, []);
+
+  function DisplayUsers(prop) {
     const { loading, error, data } = useQuery(USER_PROFILE, {
       variables: {
-        id:props.id
-      }
+        id: prop.id,
+      },
     });
 
     if (loading) return <p>Loading...</p>;
-
     if (error) return <p>Error...</p>;
 
-    
-    return console.log(data)
+    console.log(data)
+    return data.Users.map(
+      ({ id, first_name, last_name, email, username, Posts }) => (
+        <div key={id}>
+          <h3>{first_name}</h3>
+          <p>{last_name}</p>
+          <h3>{email}</h3>
+          <p>{username}</p>
+          {Posts.map((p) => (<p>{p.content}</p>
+          ))}
+        </div>
+      )
+    );
   }
   
   return (
     <div>
-      profile page <DisplayUsers id={id} />
+      profile page <DisplayUsers id={uid} />
     </div>
   );
 }

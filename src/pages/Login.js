@@ -20,8 +20,9 @@ function Login(props) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(auth.currentUser.uid)
+         
         props.setIsAuth(true)
+        localStorage.setItem("user",JSON.stringify(user.uid))
         navigate("/")
       })
       .catch((error) => {
@@ -31,7 +32,7 @@ function Login(props) {
         navigate("/login");
       });
   } 
-  
+
   return (
     <div className="d-flex justify-content-center aligin-items-center">
       <Form>

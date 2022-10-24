@@ -5,6 +5,25 @@ export const USER_PROFILE = gql`
     Users(where: { id: { _eq: $id } }) {
       first_name
       last_name
+      id
+      username
+      email
+      Posts{
+        content
+      }
+    }
+  }
+`;
+
+export const GET_POSTS = gql`
+  query{
+    Posts {
+      id
+      content
+      created_at
+      User {
+        username
+      }
     }
   }
 `;

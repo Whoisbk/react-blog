@@ -6,23 +6,33 @@ import Button from "react-bootstrap/Button";
 import { getAuth } from 'firebase/auth';
 import { useMutation } from '@apollo/client';
 import { CREATE_POST } from '../GraphQL/Mutations';
+import { useEffect } from 'react';
 
 function CreatePost() {
+
+  const [uid, setUid] = useState([]);
+
+  useEffect(() => {
+    const uid = JSON.parse(localStorage.getItem("user"));
+    if (uid) {
+      setUid(uid);
+    }
+  }, []);
 
   const [insert_Posts, { error }] = useMutation(CREATE_POST)
   const [content, setContent] = useState("")
   let navigate = useNavigate();
-  const create_post = () => {
+  const create_post = (id) => {
     insert_Posts({
       variables: {
         content: content,
-        user_id: "AUUiuPqKJXYViwDz9rkON6Gx2qC3",
+        user_id: id,
       },
     });
 
     if (error) {
       navigate('/createpost')
-      console.log(error)
+      console.log('error')
     } else {
       navigate("/");
       console.log("created post")
@@ -45,7 +55,7 @@ function CreatePost() {
           className="m-2"
           variant="secondary"
           onClick={() => {
-            create_post();
+            create_post(uid)
           }}
         >
           Post
