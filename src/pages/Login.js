@@ -16,20 +16,34 @@ function Login(props) {
   const auth = getAuth();
 
   const signIn = () => {
+
+    
     signInWithEmailAndPassword(auth, textInput, passInput)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
          
         props.setIsAuth(true)
-        localStorage.setItem("user",JSON.stringify(user.uid))
+        localStorage.setItem("user", JSON.stringify(user.uid))
         navigate("/")
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage)
-        navigate("/login");
+        
+        console.log(errorCode)
+        if (errorCode === "auth/user-not-found") {
+          alert("User Does not Exist");
+          navigate("/login");
+        } else if (errorCode === "auth/invalid-email") {
+          alert("Incorrect Email");
+          navigate("/login");
+        } else if (errorCode === "auth/wrong-password") {
+          alert("Wrong Password");
+          navigate("/login");
+        }
+          
+      
       });
   } 
 
@@ -60,10 +74,14 @@ function Login(props) {
             }}
           />
         </Form.Group>
-        {passInput}
+       
 
         <Button className="m-2" variant="secondary" onClick={signIn}>
           Login
+        </Button>
+        <br></br>
+        <Button className="m-2" variant="secondary" onClick={() => { navigate("/registration") }}>
+          Register
         </Button>
       </Form>
     </div>

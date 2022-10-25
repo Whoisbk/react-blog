@@ -63,6 +63,7 @@ function Registration() {
                 .then((url) => {
                   setImageInput(url)
                   console.log(url)
+                  
                   insert_Users({
                     variables: {
                       first_name: firstName,
@@ -87,7 +88,6 @@ function Registration() {
     
   };
 
-
   return (
     <div className="d-flex justify-content-center aligin-items-center">
       <Form>
@@ -107,7 +107,7 @@ function Registration() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>First Name</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             placeholder="Enter Name"
             onChange={(e) => {
               setFirstName(e.target.value);
@@ -118,7 +118,7 @@ function Registration() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             placeholder="Enter Last Name"
             onChange={(e) => {
               setLastName(e.target.value);
@@ -130,7 +130,7 @@ function Registration() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User Name</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             placeholder="Enter UserName"
             onChange={(e) => {
               setUserName(e.target.value);

@@ -20,6 +20,7 @@ function CreatePost() {
   }, []);
 
   const [insert_Posts, { error }] = useMutation(CREATE_POST)
+  
   const [content, setContent] = useState("")
   let navigate = useNavigate();
   const create_post = (id) => {

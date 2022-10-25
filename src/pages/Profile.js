@@ -3,6 +3,7 @@ import { USER_PROFILE } from "../GraphQL/Queries";
 import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Spinner from "react-bootstrap/Spinner";
 
 function Profile() {
 
@@ -29,7 +30,7 @@ function Profile() {
   
   return (
     <div>
-      {
+      {data ? (
         user.map(({ id, first_name, last_name, email, username, Posts,image_url }) => (
         <div key={id}>
           <h3>{first_name}</h3>
@@ -40,8 +41,13 @@ function Profile() {
             {Posts.map((p) => (
               <p>{p.content}</p>
             ))}
-        </div>))
-      }
+          </div>)
+        )):(
+        <Spinner
+          animation="border"
+          style={{ marginLeft: "40rem", marginTop: "15rem" }}
+        />
+      )}
     </div>
   );
 }

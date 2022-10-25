@@ -22,8 +22,10 @@ export const GET_POSTS = gql`
       id
       content
       created_at
+
       User {
         username
+        image_url
       }
     }
   }
