@@ -13,12 +13,17 @@ function Home() {
   const [uid, setUid] = useState([]);
 
   const currentU = localStorage.getItem("user")
-
+  const [getPosts,setGetPosts] = useState([])
   console.log(currentU)
-
+  const { loading, error, data } = useQuery(GET_POSTS);
+  
   useEffect(() => {
     localStorage.setItem("uid", JSON.stringify(currentU));
-  }, [uid]);
+    if (data) {
+      setGetPosts(data.Posts)
+      console.log(data.Posts)
+    }
+  }, [uid,data]);
 
   let navigate = useNavigate()
 
@@ -26,7 +31,7 @@ function Home() {
     const { loading, error, data } = useQuery(GET_POSTS);
     if (loading) return;
     if (error) return <p>Error loading data :(</p>;
-    console.log(data.Posts)
+    
     return data.Posts.map(({ id, content, created_at,User }) => (
       <div key={id}>
         <h2>{User.username}</h2>
@@ -40,7 +45,15 @@ function Home() {
 
   return (
     <div>
-      <DisplayPosts />
+      
+      {getPosts.map(({ id, content, created_at, User }) => (
+        <div key={id}>
+          <h2>{User.username}</h2>
+          <h3>{content}</h3>
+          <p>{created_at}</p>
+          <br />
+        </div>))}
+      
       <Button className="m-2" variant="secondary" onClick={()=>{navigate("/createpost")}}>
         Start A Post
       </Button>

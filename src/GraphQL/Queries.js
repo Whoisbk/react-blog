@@ -7,6 +7,7 @@ export const USER_PROFILE = gql`
       last_name
       id
       username
+      image_url
       email
       Posts{
         content

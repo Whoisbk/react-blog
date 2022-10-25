@@ -7,6 +7,7 @@ export const CREATE_USER_MUTATION = gql`
     $email: String!
     $username: String!
     $id:String!
+    $image_url:String!
   ) {
     insert_Users(
       objects: {
@@ -15,6 +16,7 @@ export const CREATE_USER_MUTATION = gql`
         email: $email
         username: $username
         id:$id
+        image_url:$image_url
       }
     ) {
       returning {
@@ -35,4 +37,25 @@ export const CREATE_USER_MUTATION = gql`
   }
 }
 `
+export const UPDATE_USER = gql`
+  mutation ($first_name:String! $id:id! $username:String! $last_name:String!) {
+  update_Users(_set: {first_name: $first_name,usernane:$username ,last_name: $last_name}, where: {id: {_eq: $id}}) {
+    returning {
+      first_name
+      last_name
+      username
+    }
+  }
+}
+`;
+
+
+export const UPDATE_POST = gql`
+  mutation ($content:String! $id:id! $user_id:user_id!)  {
+    update_Posts(where: {user_id: {_eq: $user_id}, id: {_eq: $id}}, _set: {content: $content}) {
+      returning {
+        content
+      }
+    }
+  }`;
 

@@ -15,6 +15,7 @@ import Registration from './pages/Registration';
 import { useState } from 'react';
 import { getAuth, signOut } from "firebase/auth";
 import { useQuery, gql } from "@apollo/client";
+import EditPage from './pages/EditPage';
 
 function App() {
   const [isAuth,setIsAuth] = useState(false)
@@ -56,6 +57,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/edit" element={<EditPage />} />
       </Routes>
     </Router>
   );
