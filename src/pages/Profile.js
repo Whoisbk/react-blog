@@ -4,6 +4,10 @@ import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import { DELETE_USER } from '../GraphQL/Mutations';
+import { useMutation } from '@apollo/client';
+import { getAuth,deleteUser } from 'firebase/auth';
 
 function Profile() {
 
@@ -26,23 +30,57 @@ function Profile() {
     }
     
   }, [uid, data]);
+  const [delete_Users, { e }] = useMutation(DELETE_USER)
+  const delUser = (id) => {
 
+    delete_Users({
+      variables: {
+        id: id,
+      },
+    });
+    if (e) {
+      console.log(e)
+      
+      }
+    };
+  
   
   return (
     <div>
       {data ? (
-        user.map(({ id, first_name, last_name, email, username, Posts,image_url }) => (
-        <div key={id}>
-          <h3>{first_name}</h3>
-          <p>{last_name}</p>
-          <h3>{email}</h3>
-            <p>{username}</p>
-            <img src={image_url} style={{width:"5rem",height:"5rem"}}></img>
-            {Posts.map((p) => (
-              <p>{p.content}</p>
-            ))}
-          </div>)
-        )):(
+        user.map(
+          ({
+            id,
+            first_name,
+            last_name,
+            email,
+            username,
+            Posts,
+            image_url,
+          }) => (
+            <div key={id}>
+              <div className='d-flex m-5' >
+                <div>
+                  <img
+                    src={image_url}
+                    style={{ width: "10rem", height: "15rem" }}
+                  ></img>
+                </div>
+                <div>
+                  <h4>First Name: {first_name}</h4>
+                  <h4>Last Name: {last_name}</h4>
+                  <h4>Email: {email}</h4>
+                  <h4>Username: {username}</h4>
+                </div>
+              </div>
+              <h3>{first_name}'s Blog Posts</h3>
+              {Posts.map((p) => (
+                <p>{p.content}</p>
+              ))}
+            </div>
+          )
+        )
+      ) : (
         <Spinner
           animation="border"
           style={{ marginLeft: "40rem", marginTop: "15rem" }}

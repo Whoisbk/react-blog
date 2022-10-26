@@ -23,6 +23,7 @@ function CreatePost() {
   
   const [content, setContent] = useState("")
   let navigate = useNavigate();
+  
   const create_post = (id) => {
     insert_Posts({
       variables: {

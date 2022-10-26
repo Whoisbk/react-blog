@@ -49,8 +49,8 @@ function Registration() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
           
+          alert("account created succesfully");
           navigate("/login");
           if (error) {
             console.log(error);

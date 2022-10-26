@@ -25,6 +25,7 @@ function Login(props) {
          
         props.setIsAuth(true)
         localStorage.setItem("user", JSON.stringify(user.uid))
+        alert("successful login")
         navigate("/")
       })
       .catch((error) => {

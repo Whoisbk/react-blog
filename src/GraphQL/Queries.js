@@ -26,6 +26,7 @@ export const GET_POSTS = gql`
       User {
         username
         image_url
+        id
       }
     }
   }

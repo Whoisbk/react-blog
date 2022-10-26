@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import Button from "react-bootstrap/Button";
 import { useNavigate } from 'react-router-dom';
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { GET_POSTS } from '../GraphQL/Queries';
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import Spinner from "react-bootstrap/Spinner";
+import { DELETE_POST } from '../GraphQL/Mutations';
+
 
 function Home() {
 
@@ -16,9 +18,20 @@ function Home() {
   const [uid, setUid] = useState([]);
 
   const currentU = localStorage.getItem("user")
-  const [getPosts,setGetPosts] = useState([])
-  console.log(currentU)
+  const [getPosts, setGetPosts] = useState([])
+ 
   const { loading, error, data } = useQuery(GET_POSTS);
+  const [delete_Posts, { e }] = useMutation(DELETE_POST)
+
+  const delPost = (id, currentUser) => {
+
+    delete_Posts({
+      variables: {
+        id: id,
+        user_id: currentUser,
+      },
+    });
+  };
   
   useEffect(() => {
     localStorage.setItem("uid", JSON.stringify(currentU));
@@ -30,21 +43,7 @@ function Home() {
 
   let navigate = useNavigate()
 
-  function DisplayPosts() {
-    const { loading, error, data } = useQuery(GET_POSTS);
-    if (loading) return;
-    if (error) return <p>Error loading data :(</p>;
-    
-    return data.Posts.map(({ id, content, created_at,User }) => (
-      <div key={id}>
-        <h2>{User.username}</h2>
-        <h3>{content}</h3>
-        <p>{created_at}</p>
-        <br />
-      </div>
-    ));
   
-  }
 
   return (
     <div>
@@ -59,7 +58,7 @@ function Home() {
                     style={{
                       width: "5rem",
                       height: "5rem",
-                      marginRight: "2rem",
+                      marginRight: "1rem",
                       borderRadius: "5rem",
                     }}
                   />
@@ -69,18 +68,32 @@ function Home() {
                       variant="primary"
                       id="dropdown-basic"
                     ></Dropdown.Toggle>
-
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-2">Edit</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">Delete</Dropdown.Item>
+                      {currentU == JSON.stringify(User.id) ? (
+                        <>
+                          <Dropdown.Item href="#/action-2">Edit</Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={(e) => {
+                              console.log(id);
+                              console.log(currentU);
+                            }}
+                          >
+                            Delete
+                          </Dropdown.Item>
+                        </>
+                      ) : (
+                        <Dropdown.Item href="">Report</Dropdown.Item>
+                      )}
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
               </Card.Header>
               <Card.Body>
-                <Card.Text>{content}</Card.Text>
+                <Card.Text style={{ fontSize: "1.8rem" }}>{content}</Card.Text>
               </Card.Body>
-              <Card.Footer as="h10">created {created_at}</Card.Footer>
+              <Card.Footer style={{ fontSize: "0.8rem" }}>
+                created {created_at}
+              </Card.Footer>
             </Card>
           </div>
         ))

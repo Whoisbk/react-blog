@@ -59,3 +59,22 @@ export const UPDATE_POST = gql`
     }
   }`;
 
+export const DELETE_POST = gql`
+  mutation ( $id: id! $user_id: user_id!) {
+    delete_Posts(where: { id: { _eq: $d }, user_id: { _eq: $user_id } }) {
+      returning {
+        content
+      }
+    }
+  }
+`;
+
+
+export const DELETE_USER = gql`
+mutation( $id: id!) {
+  delete_Users(where: {id: {_eq: $id}}) {
+    returning {
+      first_name
+    }
+  }
+}`;
