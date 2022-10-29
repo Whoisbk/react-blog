@@ -72,11 +72,18 @@ export const UPDATE_POST = gql`
   }`;
 
 export const DELETE_POST = gql`
+<<<<<<< HEAD
   mutation delete_Posts( $id:Int!) {
     delete_Posts(where: { id: { _eq: $id } }) {
       returning {
         content
         id
+=======
+  mutation ( $id: id! $user_id: user_id!) {
+    delete_Posts(where: { id: { _eq: $d }, user_id: { _eq: $user_id } }) {
+      returning {
+        content
+>>>>>>> 5f49a1ba24e5234c0fedbdd2d822eca54c74848e
       }
     }
   }
@@ -84,7 +91,11 @@ export const DELETE_POST = gql`
 
 
 export const DELETE_USER = gql`
+<<<<<<< HEAD
 mutation delete_Users( $id: String!) {
+=======
+mutation( $id: id!) {
+>>>>>>> 5f49a1ba24e5234c0fedbdd2d822eca54c74848e
   delete_Users(where: {id: {_eq: $id}}) {
     returning {
       first_name
