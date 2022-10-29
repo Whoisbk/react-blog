@@ -50,12 +50,10 @@ function Profile() {
   const [delete_Users, { e }] = useMutation(DELETE_USER)
   let navigate = useNavigate()
   const delUser = (id) => {
-    
     delete_Users({
       variables: {
         id: id,
       },
-      
     });
 
     deleteUser(id).then(() => {
