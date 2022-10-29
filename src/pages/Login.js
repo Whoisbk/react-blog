@@ -17,7 +17,6 @@ function Login(props) {
 
   const signIn = () => {
 
-    
     signInWithEmailAndPassword(auth, textInput, passInput)
       .then((userCredential) => {
         // Signed in
@@ -25,6 +24,7 @@ function Login(props) {
          
         props.setIsAuth(true)
         localStorage.setItem("user", JSON.stringify(user.uid))
+        alert("successful login")
         navigate("/")
       })
       .catch((error) => {
@@ -48,8 +48,10 @@ function Login(props) {
   } 
 
   return (
-    <div className="d-flex justify-content-center aligin-items-center">
+    <div className="d-flex justify-content-center aligin-items-center mt-5"
+    style={{padding:"2rem",border:"1px solid gray",width:"25rem",marginLeft:"30rem"}}>
       <Form>
+        <h1>LOGIN</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -60,7 +62,7 @@ function Login(props) {
             }}
           />
           <Form.Text className="text-muted">
-            We'll never share your email with anyone else.{textInput}
+            We'll never share your email with anyone else
           </Form.Text>
         </Form.Group>
 
@@ -76,13 +78,12 @@ function Login(props) {
         </Form.Group>
        
 
-        <Button className="m-2" variant="secondary" onClick={signIn}>
+        <Button style={{width:"20rem"}} className="m-2" variant="primary" onClick={signIn}>
           Login
         </Button>
         <br></br>
-        <Button className="m-2" variant="secondary" onClick={() => { navigate("/registration") }}>
-          Register
-        </Button>
+        Don't have an Account yet?create one <a href="/registration">Here</a>
+
       </Form>
     </div>
   );

@@ -23,44 +23,54 @@ function CreatePost() {
   
   const [content, setContent] = useState("")
   let navigate = useNavigate();
+  
   const create_post = (id) => {
-    insert_Posts({
-      variables: {
-        content: content,
-        user_id: id,
-      },
-    });
 
+    if (content === "") {
+      alert("Please enter some text")
+      navigate("/createpost")
+    } else {
+      insert_Posts({
+        variables: {
+          content: content,
+          user_id: id,
+        },
+      });
+      navigate("/")
+      window.location.reload()
+    }
     if (error) {
       navigate('/createpost')
       console.log('error')
-    } else {
-      navigate("/");
-      console.log("created post")
     }
   }
-
-  
   return (
     <div className="d-flex justify-content-center aligin-items-center">
       <div>
-        <FloatingLabel controlId="floatingTextarea" label="Post" onChange={(e) => setContent(e.target.value)}>
-          <Form.Control
-            as="textarea"
-            placeholder="Write Post here"
-            style={{ height: "10rem", marginTop: "10rem", width: "30rem" }}
-          />
-        </FloatingLabel>
+        <form>
+          <FloatingLabel
+            controlId="floatingTextarea"
+            label="Post"
+            onChange={(e) => setContent(e.target.value)}
+          >
+            <Form.Control
+              as="textarea"
+              placeholder="Write Post here"
+              style={{ height: "10rem", marginTop: "10rem", width: "30rem" }}
+            />
+          </FloatingLabel>
 
-        <Button
-          className="m-2"
-          variant="secondary"
-          onClick={() => {
-            create_post(uid)
-          }}
-        >
-          Post
-        </Button>
+          <Button
+            style={{ marginLeft: "20rem", width: "28rem" }}
+            className="m-2"
+            variant="primary"
+            onClick={() => {
+              create_post(uid);
+            }}
+          >
+            Post
+          </Button>
+        </form>
       </div>
     </div>
   );

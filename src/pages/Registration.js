@@ -16,8 +16,7 @@ function Registration() {
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
   const [imageInput, setImageInput] = useState(
-    ""
-  );
+    "" );
   
 
   const storage = getStorage();
@@ -49,8 +48,8 @@ function Registration() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
           
+          alert("account created succesfully");
           navigate("/login");
           if (error) {
             console.log(error);
@@ -62,8 +61,6 @@ function Registration() {
               getDownloadURL(imageRef)
                 .then((url) => {
                   setImageInput(url)
-                  console.log(url)
-                  
                   insert_Users({
                     variables: {
                       first_name: firstName,

@@ -36,18 +36,24 @@ function App() {
  
   return (
     <Router>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="primary" variant="light">
         <Container>
-          <Navbar.Brand href="/">Navbar</Navbar.Brand>
+          <Navbar.Brand href="/">BLOGGER</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profile">Profile</Nav.Link>
-
-            {!localStorage.getItem("user") ? (
-              <Nav.Link href="/login">Signin</Nav.Link>
+            {localStorage.getItem("user") ? (
+              <>
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/profile">Profile</Nav.Link>
+                <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>
+              </>
             ) : (
-              <Nav.Link onClick={signUserOut}>SignOut</Nav.Link>
+                <>
+                <Nav.Link href="/login">Home</Nav.Link>
+                <Nav.Link href="/login">Signin</Nav.Link>
+              </>
             )}
+
+           
           </Nav>
         </Container>
       </Navbar>

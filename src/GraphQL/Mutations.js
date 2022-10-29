@@ -38,20 +38,32 @@ export const CREATE_USER_MUTATION = gql`
 }
 `
 export const UPDATE_USER = gql`
-  mutation ($first_name:String! $id:id! $username:String! $last_name:String!) {
-  update_Users(_set: {first_name: $first_name,usernane:$username ,last_name: $last_name}, where: {id: {_eq: $id}}) {
-    returning {
-      first_name
-      last_name
-      username
+  mutation update_Users(
+    $first_name: String!
+    $id: String!
+    $username: String!
+    $last_name: String!
+  ) {
+    update_Users(
+      where: { id: { _eq: $id } }
+      _set: {
+        first_name: $first_name
+        username: $username
+        last_name: $last_name
+      }
+    ) {
+      affected_rows
+      returning {
+        first_name
+        last_name
+        username
+      }
     }
   }
-}
 `;
 
-
 export const UPDATE_POST = gql`
-  mutation ($content:String! $id:id! $user_id:user_id!)  {
+  mutation ($content:String! $id:Int! $user_id:String!)  {
     update_Posts(where: {user_id: {_eq: $user_id}, id: {_eq: $id}}, _set: {content: $content}) {
       returning {
         content
@@ -59,3 +71,23 @@ export const UPDATE_POST = gql`
     }
   }`;
 
+export const DELETE_POST = gql`
+  mutation delete_Posts( $id:Int!) {
+    delete_Posts(where: { id: { _eq: $id } }) {
+      returning {
+        content
+        id
+      }
+    }
+  }
+`;
+
+
+export const DELETE_USER = gql`
+mutation delete_Users( $id: String!) {
+  delete_Users(where: {id: {_eq: $id}}) {
+    returning {
+      first_name
+    }
+  }
+}`;

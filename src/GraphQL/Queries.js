@@ -11,6 +11,8 @@ export const USER_PROFILE = gql`
       email
       Posts{
         content
+        created_at
+        id
       }
     }
   }
@@ -26,6 +28,7 @@ export const GET_POSTS = gql`
       User {
         username
         image_url
+        id
       }
     }
   }
