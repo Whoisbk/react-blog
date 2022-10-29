@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useState } from 'react';
-import { CREATE_USER_MUTATION } from '../GraphQL/Mutations';
-import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-import { getStorage  ,ref, uploadBytes,getDownloadURL} from "firebase/storage";
-import { uuidv4 } from '@firebase/util';
+import { useState } from "react";
+import { CREATE_USER_MUTATION } from "../GraphQL/Mutations";
+import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { uuidv4 } from "@firebase/util";
 
 function Registration() {
   const [firstName, setFirstName] = useState("");
@@ -15,74 +15,69 @@ function Registration() {
   const [userName, setUserName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
-  const [imageInput, setImageInput] = useState(
-    "" );
-  
+  const [imageInput, setImageInput] = useState("");
 
   const storage = getStorage();
- 
+
   const auth = getAuth();
 
-  const [insert_Users, { error }] = useMutation(CREATE_USER_MUTATION)
-  
+  const [insert_Users, { error }] = useMutation(CREATE_USER_MUTATION);
+
   let navigate = useNavigate();
 
   const signUp = () => {
     if (passInput !== passInput) {
-      alert("password don't match")
-      navigate("/registration")
-    } else if (firstName.length < 3){
-      alert("username is too short");   
-      navigate("/registration");
+      alert("password don't match");
+      navigate("/react-blog/registration");
+    } else if (firstName.length < 3) {
+      alert("username is too short");
+      navigate("/react-blog/registration");
     } else if (firstName === "") {
       alert("enter first name");
-      navigate("/registration");
+      navigate("/react-blog/registration");
     } else if (lastName === "") {
       alert("enter last name");
-      navigate("/registration");
+      navigate("/react-blog/registration");
     } else if (emailInput === "") {
       alert("please enter email");
-      navigate("/registration");
+      navigate("/react-blog/registration");
     } else {
       createUserWithEmailAndPassword(auth, emailInput, passInput)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          
+
           alert("account created succesfully");
-          navigate("/login");
+          navigate("/react-blog/login");
           if (error) {
             console.log(error);
-            navigate("/registration");
+            navigate("/react-blog/registration");
           }
           const imageRef = ref(storage, `images/${imageInput.name}`);
-          uploadBytes(imageRef, imageInput)
-            .then(() => {
-              getDownloadURL(imageRef)
-                .then((url) => {
-                  setImageInput(url)
-                  insert_Users({
-                    variables: {
-                      first_name: firstName,
-                      last_name: lastName,
-                      email: emailInput,
-                      username: userName,
-                      id: user.uid,
-                      image_url: url,
-                    },
-                  });
-                });
+          uploadBytes(imageRef, imageInput).then(() => {
+            getDownloadURL(imageRef).then((url) => {
+              setImageInput(url);
+              insert_Users({
+                variables: {
+                  first_name: firstName,
+                  last_name: lastName,
+                  email: emailInput,
+                  username: userName,
+                  id: user.uid,
+                  image_url: url,
+                },
+              });
+            });
             console.log("uplaoded");
           });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          navigate("/registration");
+          navigate("/react-blog/registration");
           // ..
         });
     }
-    
   };
 
   return (
@@ -120,7 +115,6 @@ function Registration() {
             onChange={(e) => {
               setLastName(e.target.value);
             }}
-
           />
         </Form.Group>
 
@@ -175,4 +169,4 @@ function Registration() {
   );
 }
 
-export default Registration
+export default Registration;

@@ -62,14 +62,6 @@ export const UPDATE_USER = gql`
   }
 `;
 
-export const UPDATE_POST = gql`
-  mutation ($content:String! $id:Int! $user_id:String!)  {
-    update_Posts(where: {user_id: {_eq: $user_id}, id: {_eq: $id}}, _set: {content: $content}) {
-      returning {
-        content
-      }
-    }
-  }`;
 
 export const DELETE_POST = gql`
   mutation delete_Posts( $id:Int!) {

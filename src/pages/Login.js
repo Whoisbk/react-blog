@@ -25,7 +25,7 @@ function Login(props) {
         props.setIsAuth(true)
         localStorage.setItem("user", JSON.stringify(user.uid))
         alert("successful login")
-        navigate("/")
+        navigate("/react-blog/login")
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -34,13 +34,13 @@ function Login(props) {
         console.log(errorCode)
         if (errorCode === "auth/user-not-found") {
           alert("User Does not Exist");
-          navigate("/login");
+          navigate("/react-blog/login");
         } else if (errorCode === "auth/invalid-email") {
           alert("Incorrect Email");
-          navigate("/login");
+          navigate("/react-blog/login");
         } else if (errorCode === "auth/wrong-password") {
           alert("Wrong Password");
-          navigate("/login");
+          navigate("/react-blog/login");
         }
           
       
@@ -82,7 +82,7 @@ function Login(props) {
           Login
         </Button>
         <br></br>
-        Don't have an Account yet?create one <a href="/registration">Here</a>
+        Don't have an Account yet?create one <a href="/react-blog/registration">Here</a>
 
       </Form>
     </div>

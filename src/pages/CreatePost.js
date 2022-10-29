@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { getAuth } from 'firebase/auth';
-import { useMutation } from '@apollo/client';
-import { CREATE_POST } from '../GraphQL/Mutations';
-import { useEffect } from 'react';
+import { getAuth } from "firebase/auth";
+import { useMutation } from "@apollo/client";
+import { CREATE_POST } from "../GraphQL/Mutations";
+import { useEffect } from "react";
 
 function CreatePost() {
-
   const [uid, setUid] = useState([]);
 
   useEffect(() => {
@@ -19,16 +18,15 @@ function CreatePost() {
     }
   }, []);
 
-  const [insert_Posts, { error }] = useMutation(CREATE_POST)
-  
-  const [content, setContent] = useState("")
-  let navigate = useNavigate();
-  
-  const create_post = (id) => {
+  const [insert_Posts, { error }] = useMutation(CREATE_POST);
 
+  const [content, setContent] = useState("");
+  let navigate = useNavigate();
+
+  const create_post = (id) => {
     if (content === "") {
-      alert("Please enter some text")
-      navigate("/createpost")
+      alert("Please enter some text");
+      navigate("/react-blog/createpost");
     } else {
       insert_Posts({
         variables: {
@@ -36,14 +34,15 @@ function CreatePost() {
           user_id: id,
         },
       });
-      navigate("/")
-      window.location.reload()
+      navigate("/react-blog/");
+      
     }
+    window.location.reload();
     if (error) {
-      navigate('/createpost')
-      console.log('error')
+      navigate("/react-blog/createpost");
+      console.log("error");
     }
-  }
+  };
   return (
     <div className="d-flex justify-content-center aligin-items-center">
       <div>
@@ -76,4 +75,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost
+export default CreatePost;
